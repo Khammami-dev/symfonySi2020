@@ -47,4 +47,10 @@ class PieceIdentiteRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getPieceBypersonne($id_personne){
+        //select * from pieceidentité pi
+        $qb = $this->createQueryBuilder('pi');
+        $qb->innerJoin('pi.personne');
+
+    }
 }

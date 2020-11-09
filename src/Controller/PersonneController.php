@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use App\Entity\PieceIdentite;
 use App\Form\PersonneType;
+use App\Form\PieceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -110,6 +112,21 @@ class PersonneController extends AbstractController
             return $this->redirectToRoute('personne.list');
         }
     }
+    /**
+     * @Route("/editpiece/{id}", name="personne.editpiece")
+     */
+    /*public function findPieceBypersoonne($id) {
+
+        $repository = $this->getDoctrine()->getReposito(PieceIdentite::class);
+        $piece = $repository->find($id);
+        dd($piece);
+        if ($piece) {
+            return $this->render('personne/piece.html.twig', ['piece' => $piece]);
+        } else {
+            $this->addFlash('error', 'Personne innexistante');
+            return $this->redirectToRoute('personne.list');
+        }
+    }*/
 
     /**
      * @Route("/delete/{id}", name="personne.delete")
@@ -168,6 +185,7 @@ class PersonneController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/edit/{id?0}", name="personne.edit")
      */
@@ -181,6 +199,20 @@ class PersonneController extends AbstractController
         $form->remove('updatedAt');
         $form->remove('pieceIdentite');
         return $this->render('personne/add.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+    /**
+     * @Route("/edit/piece/{id?0}/", name="personne.editPiece")
+     */
+    public function EditPiece(PieceIdentite $pieceIdentite = null) {
+        if(!$pieceIdentite)
+            $pieceIdentite = new PieceIdentite();
+
+        $form = $this->createForm(PieceType::class, $pieceIdentite);
+        $form->remove('createdAt');
+        $form->remove('updatedAt');
+        return $this->render('personne/Editpiece.html.twig', [
             'form' => $form->createView()
         ]);
     }
